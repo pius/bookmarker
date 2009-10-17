@@ -17,11 +17,11 @@ module AuthBookmark
   protected
 
   #Checks if user is logged in using the restful_authentication login helper
-  def bookmarker_login_required
-    if !logged_in?
+  def bookmarker_login_required(logged_in_method_name = :"signed_in?", login_action = "sign_in")
+    if !(self.send(logged_in_method_name))
       session[:return_to] = request.request_uri
       flash[:notice]="You must log in to use the bookmarker tool! "
-      redirect_to  :action=>'login'
+      redirect_to  :action=> login_action
     end
   end
 
